@@ -1,0 +1,121 @@
+
+ALTER TABLE `company_info`
+	ADD COLUMN `company_code` VARCHAR(10) NOT NULL AFTER `company_name`;
+
+
+ALTER TABLE `customer_info`
+	ADD COLUMN `customer_code` VARCHAR(10) NOT NULL AFTER `customer_name`; 
+
+
+ALTER TABLE `tender_enquiry_info`
+	ADD COLUMN `company_sno` INT(5) ZEROFILL NULL AFTER `company_id`,
+	ADD COLUMN `customer_sno` INT(5) ZEROFILL NULL DEFAULT NULL AFTER `customer_id`; 
+
+
+ALTER TABLE `company_info`
+	ADD COLUMN `ltr_header_img` VARCHAR(200) NOT NULL AFTER `email`; 
+
+ALTER TABLE `tender_quotation_info`
+	ADD COLUMN `terms` TEXT NULL DEFAULT NULL AFTER `remarks`;
+
+
+ALTER TABLE `company_info`
+	ADD COLUMN `quote_terms` TEXT NOT NULL AFTER `ltr_header_img`,
+	ADD COLUMN `invoice_terms` TEXT NOT NULL AFTER `quote_terms`; 
+
+
+CREATE TABLE `customer_contact_info` (
+	`customer_contact_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`customer_id` INT(11) NULL DEFAULT NULL,
+	`contact_person_name` VARCHAR(50) NULL DEFAULT NULL,
+	`mobile` VARCHAR(50) NULL DEFAULT NULL,
+	`email` VARCHAR(50) NULL DEFAULT NULL,
+	`address` TEXT NULL DEFAULT NULL,
+	`department` VARCHAR(100) NULL DEFAULT NULL,
+	`designation` VARCHAR(100) NULL DEFAULT NULL,
+	`status` VARCHAR(50) NULL DEFAULT NULL,
+	`created_by` INT(11) NULL DEFAULT NULL,
+	`created_date` DATETIME NULL DEFAULT NULL,
+	`updated_by` INT(11) NULL DEFAULT NULL,
+	`updated_date` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`customer_contact_id`)
+)
+ENGINE=InnoDB
+;;
+
+ALTER TABLE `tender_enquiry_info`
+	ADD COLUMN `tender_status` VARCHAR(100) NULL AFTER `status`;
+
+CREATE TABLE `vendor_contact_info` (
+	`vendor_contact_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`vendor_id` INT(11) NULL DEFAULT NULL,
+	`contact_person_name` VARCHAR(50) NULL DEFAULT NULL,
+	`mobile` VARCHAR(50) NULL DEFAULT NULL,
+	`email` VARCHAR(50) NULL DEFAULT NULL,
+	`address` TEXT NULL DEFAULT NULL,
+	`department` VARCHAR(100) NULL DEFAULT NULL,
+	`designation` VARCHAR(100) NULL DEFAULT NULL,
+	`status` VARCHAR(50) NULL DEFAULT NULL,
+	`created_by` INT(11) NULL DEFAULT NULL,
+	`created_date` DATETIME NULL DEFAULT NULL,
+	`updated_by` INT(11) NULL DEFAULT NULL,
+	`updated_date` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`vendor_contact_id`)
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;;
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+
+ALTER TABLE tender_quotation_info ADD quotation_status VARCHAR(50) NULL DEFAULT 'Pending' AFTER quote_date;
+
+ 
+ ALTER TABLE `vendor_rate_enquiry_info` ADD `vendor_contact_person_id` INT(11) NULL DEFAULT NULL AFTER `vendor_id`;
+
+ ALTER TABLE tender_enquiry_info ADD customer_contact_id INT(11) NULL AFTER customer_id;
+
+
+ ALTER TABLE `tender_enquiry_info` ADD COLUMN `tender_document` VARCHAR(255) NULL AFTER `tender_name`;
+
+ 
+ ---------------------------------
+ 17-11-2025
+
+ ALTER TABLE `tender_enquiry_info`
+	ADD COLUMN `tender_name` VARCHAR(200) NULL DEFAULT NULL AFTER `customer_sno`;
+ 
+---------------------------------------
+
+18-11-2025
+
+ALTER TABLE `tender_enquiry_info`
+	CHANGE COLUMN `enquiry_no` `enquiry_no` INT(5) ZEROFILL NULL DEFAULT NULL AFTER `enquiry_date`,
+	ADD COLUMN `customer_rfq_no` VARCHAR(100) NULL DEFAULT NULL AFTER `customer_sno`;
+
+ALTER TABLE `tender_enquiry_info`
+	CHANGE COLUMN `enquiry_no` `enquiry_no` VARCHAR(100) NULL DEFAULT NULL AFTER `enquiry_date`,
+	DROP COLUMN `customer_rfq_no`;
+
+
+CREATE DEFINER=`zazu`@`%` TRIGGER `tender_enquiry_info_before_insert` BEFORE INSERT ON `tender_enquiry_info` FOR EACH ROW BEGIN
+declare comp_sno , cust_sno , enq_no int default 0;
+select max(a.company_sno) into comp_sno from tender_enquiry_info as a where a.status != 'Delete' and fiscal_year(a.enquiry_date) = fiscal_year(new.enquiry_date) and a.company_id = new.company_id ;
+set new.company_sno = ifnull(comp_sno , 0 ) + 1 ;
+
+select max(a.customer_sno) into cust_sno from tender_enquiry_info as a where a.status != 'Delete' and fiscal_year(a.enquiry_date) = fiscal_year(new.enquiry_date) and a.customer_id = new.customer_id ;
+set new.customer_sno = ifnull(cust_sno , 0 ) + 1 ;
+
+/* select max(a.enquiry_no) into enq_no from tender_enquiry_info as a where a.status != 'Delete' and fiscal_year(a.enquiry_date) = fiscal_year(new.enquiry_date) and a.company_id = new.company_id ;
+set new.enquiry_no = ifnull(enq_no , 0 ) + 1 ;*/
+
+
+END//
+
+
+---------------- Done ------------------------
+

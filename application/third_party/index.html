@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>403 Forbidden</title>
+</head>
+<body>
+
+<p>Directory access is forbidden.</p>
+
+</body>
+</html>
+insert into crit_international_rate_info (country_id, international_service_provider_id, package_type_id, package_weight_id, rate, `status`) (select '95' , international_service_provider_id, package_type_id, package_weight_id, rate, `status` from crit_international_rate_info where country_id = 61 and international_service_provider_id = 1)
