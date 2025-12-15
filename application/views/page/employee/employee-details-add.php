@@ -194,25 +194,122 @@
 
                 </ul>
                 <div class="tab-content" style="padding-top:20px;">
+                    <style>
+                        .btn_add {
+                            padding: 4px 20px !important;
+                        }
+
+                      
+                    </style>
 
                     <div class="tab-pane active" id="tab_1">
                         <h4>Work / Employment Details</h4>
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <label>Employee Category <span style="color: red;">*</span></label>
-                                <?php echo form_dropdown('employee_category_id', $employee_category_opt, '', 'class="form-control select2" id="employee_category_id" required="true"'); ?>
+                                <label>Employee Category <span style="color:red;">*</span></label>
+                                <div class="input-group">
+                                    <?php
+                                    echo form_dropdown(
+                                        'employee_category_id',
+                                        $employee_category_opt,
+                                        '',
+                                        'class="form-control select2 employee-category-dd btn_add btn-sm" id="employee_category_id" required'
+                                    );
+                                    ?>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#employeeCategoryModal">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
+
                             <div class="form-group col-md-4">
-                                <label>Employee Skill <span style="color: red;">*</span></label>
-                                <?php
-                                echo form_dropdown(
-                                    'employee_skill_id',
-                                    array('' => 'Select Employee Skill'),
-                                    set_value('employee_skill_id'),
-                                    'class="form-control form-select select2" id="employee_skill_id" required'
-                                );
-                                ?>
+                                <label>Employee Skill <span style="color:red;">*</span></label>
+                                <div class="input-group">
+                                    <?php
+                                    echo form_dropdown(
+                                        'employee_skill_id',
+                                        ['' => 'Select Employee Skill'],
+                                        '',
+                                        'class="form-control select2 employee-skill-dd btn_add" id="employee_skill_id" required'
+                                    );
+                                    ?>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#employeeSkillModal">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
+                            <div class="modal fade" id="employeeCategoryModal">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-green">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4>Add Employee Category</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <label>Category Name *</label>
+                                            <input type="text" id="employee_category_name" class="form-control"
+                                                placeholder="Enter category">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-success" id="saveEmployeeCategory">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="employeeSkillModal">
+                                <div class="modal-dialog modal-md modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4>Add Employee Skill</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <label>Employee Category *</label>
+                                            <?php
+                                            echo form_dropdown(
+                                                'skill_category_id',
+                                                $employee_category_opt,
+                                                '',
+                                                'class="form-control select2" id="skill_category_id" required'
+                                            );
+                                            ?>
+
+                                            <br>
+
+                                            <label>Skill Name *</label>
+                                            <input type="text" class="form-control" id="skill_name"
+                                                placeholder="Enter skill">
+
+                                            <br>
+
+                                            <label>Status</label><br>
+                                            <label><input type="radio" name="skill_status" value="Active" checked>
+                                                Active</label>
+                                            <label><input type="radio" name="skill_status" value="InActive">
+                                                InActive</label>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" id="saveEmployeeSkill">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
 
                             <div class="form-group col-md-4">
@@ -220,6 +317,9 @@
                                 <input type="text" name="skill_other" class="form-control"
                                     placeholder="Enter other skill">
                             </div>
+
+                        </div>
+                        <div class="row">
 
                             <div class="form-group col-md-4">
                                 <label>Experience Level</label>
@@ -628,7 +728,7 @@
 
                         <div id="talent_append"></div>
 
-                    </div> 
+                    </div>
                     <!-- TAB 9: TALENT -->
                     <div class="tab-pane" id="tab_10">
                         <div class="row">
@@ -718,6 +818,29 @@
 
     </section>
 </form>
+<style>
+    /* AdminLTE 2 modal center fix */
+    .modal {
+        text-align: center;
+        padding: 0 !important;
+    }
+
+    .modal:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+</style>
+
+
+
 <?php include_once(VIEWPATH . 'inc/footer.php'); ?>
 <script>
     $(document).ready(function () {
@@ -790,3 +913,123 @@
         }
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ width: '100%' });
+    });
+</script>
+<script>
+    $(document).on('click', '#saveEmployeeCategory', function () {
+
+        var category_name = $('#employee_category_name').val().trim();
+        if (category_name === '') {
+            alert('Category name required');
+            return;
+        }
+
+        $.ajax({
+            url: "<?php echo base_url('master/save_category'); ?>",
+            type: "POST",
+            data: { category_name: category_name },
+            dataType: "json",
+            success: function (res) {
+
+                if (res.status === 'success') {
+
+                    /* =====================================
+                       1️⃣ MAIN CATEGORY DROPDOWN AUTO SELECT
+                    ===================================== */
+                    $('.employee-category-dd').each(function () {
+
+                        if ($(this).find("option[value='" + res.id + "']").length === 0) {
+                            $(this).append(
+                                $('<option>', {
+                                    value: res.id,
+                                    text: res.category_name
+                                })
+                            );
+                        }
+
+                        $(this).val(res.id).trigger('change');
+                    });
+
+                    /* =====================================
+                       2️⃣ SKILL MODAL CATEGORY AUTO SELECT
+                    ===================================== */
+                    if ($('#skill_category_id').find("option[value='" + res.id + "']").length === 0) {
+                        $('#skill_category_id').append(
+                            $('<option>', {
+                                value: res.id,
+                                text: res.category_name
+                            })
+                        );
+                    }
+
+                    $('#skill_category_id')
+                        .val(res.id)
+                        .trigger('change'); // 🔥 AUTO TRIGGER
+
+                    /* =====================================
+                       3️⃣ RESET & CLOSE
+                    ===================================== */
+                    $('#employeeCategoryModal').modal('hide');
+                    $('#employee_category_name').val('');
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    // SAVE SKILL
+    $(document).on('click', '#saveEmployeeSkill', function () {
+
+        var category_id = $('#skill_category_id').val();
+        var skill_name = $('#skill_name').val().trim();
+        var status = $('input[name="skill_status"]:checked').val();
+
+        if (category_id === '' || skill_name === '') {
+            alert('All fields required');
+            return;
+        }
+
+        $.ajax({
+            url: "<?php echo base_url('master/save_skill'); ?>",
+            type: "POST",
+            data: {
+                employee_category_id: category_id,
+                skill_name: skill_name,
+                status: status
+            },
+            dataType: "json",
+            success: function (res) {
+
+                if (res.status === 'success') {
+
+                    $('#employee_category_id')
+                        .val(category_id)
+                        .trigger('change');
+
+                    if ($('#employee_skill_id')
+                        .find("option[value='" + res.id + "']").length === 0) {
+
+                        $('#employee_skill_id').append(
+                            $('<option>', {
+                                value: res.id,
+                                text: res.skill_name
+                            })
+                        );
+                    }
+
+                    $('#employee_skill_id')
+                        .val(res.id)
+                        .trigger('change');
+
+                    $('#employeeSkillModal').modal('hide');
+                    $('#skill_name').val('');
+                }
+            }
+        });
+    });
+</>

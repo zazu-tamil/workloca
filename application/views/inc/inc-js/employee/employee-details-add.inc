@@ -162,7 +162,7 @@
     border-radius: 6px !important;
     border: 1px solid #d1d5db !important;
     padding: 4px 8px !important;
-    min-height: 35px !important;
+    min-height: 40px !important;
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap !important;
@@ -179,7 +179,7 @@
     box-sizing: border-box;
     cursor: pointer;
     display: block;
-    height: 34px !important;
+    height: 40px !important;
     user-select: none;
     -webkit-user-select: none;
   }

@@ -1277,4 +1277,41 @@ class Master extends CI_Controller
 
         $this->load->view('page/master/department-list', $data);
     }
+
+    public function save_category()
+    {
+        $category = $this->input->post('category_name');
+
+        $this->db->insert('employee_category_info', [
+            'category_name' => $category,
+            'status' => 'Active',
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+
+        echo json_encode([
+            'status' => 'success',
+            'id' => $this->db->insert_id(),
+            'category_name' => $category
+        ]);
+    }
+
+    public function save_skill()
+    {
+        $data = [
+            'employee_category_id' => $this->input->post('employee_category_id'),
+            'skill_name' => $this->input->post('skill_name'),
+            'status' => $this->input->post('status'),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $this->db->insert('employee_skill_info', $data);
+
+        echo json_encode([
+            'status' => 'success',
+            'id' => $this->db->insert_id(),
+            'skill_name' => $data['skill_name']
+        ]);
+    }
+
+
 }
