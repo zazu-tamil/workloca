@@ -236,6 +236,22 @@ class General extends CI_Controller
             }
 
         }
+        if ($table == 'department_info') {
+            $query = $this->db->query(" 
+                select 
+                a.* 
+                from department_info as a  
+                where a.department_id  = '" . $rec_id . "'
+                and a.status != 'Delete'
+            ");
+
+            $rec_list = array();
+
+            foreach ($query->result_array() as $row) {
+                $rec_list = $row;
+            }
+
+        }
 
 
         $this->db->close();
@@ -350,11 +366,12 @@ class General extends CI_Controller
             $this->db->update('supervisor_terms_info', array('status' => 'Delete'));
             echo "Record Deleted Successfully";
         }
-        if ($table == 'company_info') {
-            $this->db->where('company_id', $rec_id);
-            $this->db->update('company_info', array('status' => 'Delete'));
+        if ($table == 'department_info') {
+            $this->db->where('department_id', $rec_id);
+            $this->db->update('department_info', array('status' => 'Delete'));
             echo "Record Deleted Successfully";
         }
+       
 
     }
 

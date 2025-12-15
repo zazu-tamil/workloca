@@ -108,10 +108,15 @@ $route['talent-list/(:num)'] = 'master/talent_list/$1';
 $route['user-list'] = 'master/user_list';
 $route['user-list/(:num)'] = 'master/user_list/$1';
 
+$route['department-list'] = 'master/department_list';
+$route['department-list/(:num)'] = 'master/department_list/$1';
+
   
 $route['supervisor-terms'] = 'master/supervisor_terms';
 $route['supervisor-terms/(:num)'] = 'master/supervisor_terms/$1';
  
 $route['company-add'] = 'company/company_add'; 
-$route['company-list'] = 'company/company_list';
+$route['company-list'] = 'company/company_list'; 
+$route['company-edit/(:num)'] = 'company/company_edit/$1';
+
  

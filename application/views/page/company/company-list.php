@@ -74,8 +74,8 @@
                             <td class="text-center"><?php echo ($j + 1 + $sno); ?></td>
                             <td>
                                 <strong><?php echo $ls['company_name']; ?></strong><br>
-                                <span class="badge badge-success">GST: <?php echo $ls['gst_number']; ?></span>
-                                <span class="badge badge-info">PAN: <?php echo $ls['pan_number']; ?></span>
+                                <span class="badge label-success">GST: <?php echo $ls['gst_number']; ?></span>
+                                <span class="badge label-success">PAN: <?php echo $ls['pan_number']; ?></span>
                             </td>
 
                             <td>

@@ -40,9 +40,9 @@ class Company extends CI_Controller
             $this->upload->initialize($config1);
 
             $logo = '';
-            if (!empty($_FILES['logo']['name'])) {
-                if ($this->upload->do_upload('logo')) {
-                    $logo = $this->upload->data('file_name');
+            if (!empty($_FILES['photo']['name'])) {
+                if ($this->upload->do_upload('photo')) {
+                    $photo = $this->upload->data('file_name');
                 }
             }
 
@@ -65,7 +65,7 @@ class Company extends CI_Controller
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             );
-            $this->db->insert('company_info', $ins); 
+            $this->db->insert('company_info', $ins);
             redirect('company-list');
 
         }
@@ -122,6 +122,96 @@ class Company extends CI_Controller
         $this->load->view('page/company/company-add', $data);
     }
 
+    public function company_edit($company_id)
+    {
+        if (!$this->session->userdata(SESS_HD . 'logged_in'))
+            redirect();
+
+        if ($this->session->userdata(SESS_HD . 'user_type') != 'Admin' && $this->session->userdata(SESS_HD . 'user_type') != 'Staff') {
+            echo "<h3 style='color:red;'>Permission Denied</h3>";
+            exit;
+        }
+
+        $data['js'] = 'company/company-edit.inc';
+        $data['title'] = 'Company Edit';
+
+        if ($this->input->post('mode') == 'Edit') {
+
+            $upload_path_photos = 'company-logo';
+            if (!is_dir($upload_path_photos)) {
+                mkdir($upload_path_photos, 0777, true);
+            }
+
+            $config['upload_path'] = $upload_path_photos;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 2048;
+            $config['encrypt_name'] = TRUE;
+            $this->load->library('upload', $config);
+
+
+            $pref_location = $this->input->post('area');
+
+            $upd = array(
+                'company_name' => $this->input->post('company_name'),
+                'mobile' => $this->input->post('mobile'),
+                'mobile_alt' => $this->input->post('mobile_alt'),
+                'email' => $this->input->post('email'),
+                'state_id' => $this->input->post('state_id'),
+                'district_id' => $this->input->post('district_id'),
+                'area' => implode(',', $pref_location),
+                'address' => $this->input->post('address'),
+                'gst_number' => $this->input->post('gst_number'),
+                'pan_number' => $this->input->post('pan_number'),
+                'website' => $this->input->post('website'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            );
+
+            if (!empty($_FILES['photo']['name'])) {
+                if ($this->upload->do_upload('photo')) {
+                    $upd['photo'] = $upload_path_photos . '/' . $this->upload->data('file_name');
+                }
+            }
+            $this->db->where('company_id', $this->input->post('company_id'));
+            $this->db->update('company_info', $upd);
+
+            redirect('company-list');
+
+        }
+        $data['pincode_opt'] = ['' => 'Select'];
+        $data['district_opt'] = ['' => 'Select'];
+        $data['area_opt'] = ['' => 'Select'];
+
+        $sql = "
+            SELECT 
+                state_name
+            FROM crit_pincode_info
+            WHERE status = 'Active'
+            GROUP BY state_name
+            ORDER BY state_name ASC";
+        $query = $this->db->query($sql);
+        $data['state_opt'] = ['' => 'Select'];
+        foreach ($query->result_array() as $row) {
+            $data['state_opt'][$row['state_name']] = $row['state_name'];
+        }
+
+        $sql = "
+            SELECT a.*, 
+            a.state_id,
+            a.district_id,
+            a.area
+            FROM company_info a
+            WHERE a.status != 'Delete'
+                AND a.company_id = ?
+            ORDER BY a.company_name ASC  
+        ";
+        $query = $this->db->query($sql, array($company_id));
+        $data['record_list'] = $query->row_array();
+
+
+        $this->load->view('page/company/company-edit', $data);
+    }
 
 
     public function company_list()
@@ -169,7 +259,7 @@ class Company extends CI_Controller
 
         $data['sno'] = $this->uri->segment(2, 0);
 
-        $config['base_url'] = site_url('company-list') ;
+        $config['base_url'] = site_url('company-list');
         $config['total_rows'] = $data['total_records'];
         $config['per_page'] = 50;
         $config['uri_segment'] = 2;
@@ -239,9 +329,9 @@ class Company extends CI_Controller
         $table = $this->input->post('tbl');
         $rec_id = $this->input->post('id');
 
-        if ($table == 'supervisor_info') {
+        if ($table == 'company_info') {
             $this->db->where('company_id', $rec_id);
-            $this->db->update('supervisor_info', array('status' => 'Delete'));
+            $this->db->update('company_info', array('status' => 'Delete'));
             echo "Record Deleted Successfully";
         }
     }

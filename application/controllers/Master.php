@@ -1101,8 +1101,8 @@ class Master extends CI_Controller
             $ins = array(
                 'terms_accepted' => $this->input->post('terms_accepted'),
                 'nda_agreement' => $this->input->post('nda_agreement'),
-                'background_check' =>  $this->input->post('background_check'), 
-                'status' =>'Active',
+                'background_check' => $this->input->post('background_check'),
+                'status' => 'Active',
                 'created_at' => date('Y-m-d H:i:s'),
             );
 
@@ -1114,21 +1114,21 @@ class Master extends CI_Controller
             $upd = array(
                 'terms_accepted' => $this->input->post('terms_accepted'),
                 'nda_agreement' => $this->input->post('nda_agreement'),
-                'background_check' =>  $this->input->post('background_check'), 
-                'status' => $this->input->post('status'), 
+                'background_check' => $this->input->post('background_check'),
+                'status' => $this->input->post('status'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
 
             $this->db->where('supervisor_terms_id', $this->input->post('supervisor_terms_id'));
             $this->db->update('supervisor_terms_info', $upd);
 
-             redirect('supervisor-terms/');
+            redirect('supervisor-terms/');
         }
 
 
         $this->load->library('pagination');
 
-        $this->db->where('status !=', 'Delete'); 
+        $this->db->where('status !=', 'Delete');
         $this->db->from('supervisor_terms_info');
         $data['total_records'] = $cnt = $this->db->count_all_results();
 
@@ -1175,10 +1175,106 @@ class Master extends CI_Controller
             $data['record_list'][] = $row;
         }
 
+        $data['pagination'] = $this->pagination->create_links();
+
+        $this->load->view('page/master/supervisor-terms', $data);
+    }
+    public function department_list()
+    {
+        if (!$this->session->userdata(SESS_HD . 'logged_in'))
+            redirect();
+
+        if (
+            $this->session->userdata(SESS_HD . 'user_type') != 'Admin'
+            && $this->session->userdata(SESS_HD . 'user_type') != 'Staff'
+        ) {
+            echo "<h3 style='color:red;'>Permission Denied</h3>";
+            exit;
+        }
+
+
+        $data['js'] = 'department-list.inc';
+
+        $data['title'] = 'Department List';
+
+        if ($this->input->post('mode') == 'Add') {
+            $ins = array(
+                'department_name' => $this->input->post('department_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s'),
+            );
+
+            $this->db->insert('department_info', $ins);
+            redirect('department-list/');
+        }
+
+        if ($this->input->post('mode') == 'Edit') {
+            $upd = array(
+                'department_name' => $this->input->post('department_name'),
+                'status' => $this->input->post('status'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            );
+
+            $this->db->where('department_id', $this->input->post('department_id'));
+            $this->db->update('department_info', $upd);
+
+            redirect('department-list/');
+        }
+
+
+        $this->load->library('pagination');
+
+        $this->db->where('status !=', 'Delete');
+        $this->db->from('department_info');
+        $data['total_records'] = $cnt = $this->db->count_all_results();
+
+
+        $data['sno'] = $this->uri->segment(2, 0);
+
+        $config['base_url'] = site_url('department-list');
+        $config['total_rows'] = $cnt;
+        $config['per_page'] = 50;
+        $config['uri_segment'] = 2;
+        //$config['num_links'] = 2; 
+        $config['attributes'] = array('class' => 'page-link');
+        $config['full_tag_open'] = '<ul class="pagination pagination-sm no-margin pull-right">';
+        $config['full_tag_close'] = '</ul>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a href="#" class="page-link">';
+        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></a></li>';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = "Prev";
+        $config['next_link'] = "Next";
+        $this->pagination->initialize($config);
+
+        $sql = "
+            SELECT a.*
+            FROM department_info a
+            where a.status != 'Delete'
+            order by a.department_id desc           
+            limit " . $this->uri->segment(2, 0) . "," . $config['per_page'] . "                
+        ";
+
+        $data['record_list'] = array();
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->result_array() as $row) {
+            $data['record_list'][] = $row;
+        }
+
 
 
         $data['pagination'] = $this->pagination->create_links();
 
-        $this->load->view('page/master/supervisor-terms', $data);
+        $this->load->view('page/master/department-list', $data);
     }
 }
