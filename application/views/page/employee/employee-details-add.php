@@ -198,8 +198,6 @@
                         .btn_add {
                             padding: 4px 20px !important;
                         }
-
-                      
                     </style>
 
                     <div class="tab-pane active" id="tab_1">
@@ -218,7 +216,7 @@
                                     ?>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#employeeCategoryModal">
+                                            data-target="#add_employee_category_modal">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </span>
@@ -238,80 +236,12 @@
                                     ?>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#employeeSkillModal">
+                                            data-target="#add_employee_skill">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </span>
                                 </div>
                             </div>
-                            <div class="modal fade" id="employeeCategoryModal">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-green">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4>Add Employee Category</h4>
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <label>Category Name *</label>
-                                            <input type="text" id="employee_category_name" class="form-control"
-                                                placeholder="Enter category">
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                            <button class="btn btn-success" id="saveEmployeeCategory">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="employeeSkillModal">
-                                <div class="modal-dialog modal-md modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4>Add Employee Skill</h4>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                            <label>Employee Category *</label>
-                                            <?php
-                                            echo form_dropdown(
-                                                'skill_category_id',
-                                                $employee_category_opt,
-                                                '',
-                                                'class="form-control select2" id="skill_category_id" required'
-                                            );
-                                            ?>
-
-                                            <br>
-
-                                            <label>Skill Name *</label>
-                                            <input type="text" class="form-control" id="skill_name"
-                                                placeholder="Enter skill">
-
-                                            <br>
-
-                                            <label>Status</label><br>
-                                            <label><input type="radio" name="skill_status" value="Active" checked>
-                                                Active</label>
-                                            <label><input type="radio" name="skill_status" value="InActive">
-                                                InActive</label>
-
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                            <button class="btn btn-primary" id="saveEmployeeSkill">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
                             <div class="form-group col-md-4">
                                 <label>If Others, specify</label>
                                 <input type="text" name="skill_other" class="form-control"
@@ -466,15 +396,26 @@
                         <h4>Health Information</h4>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>Existing Health Issues</label><br>
-                                <?php foreach ($health_issues as $issue) { ?>
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" name="health_issues_id[]"
-                                            value="<?php echo $issue['health_issues_id']; ?>">
-                                        <?php echo $issue['health_issues_name']; ?>
-                                    </label>
-                                <?php } ?>
+                                <h3>
+                                    Existing Health Issues
+                                    <button type="button" class="btn btn-primary pull-right" data-toggle="modal"
+                                        data-target="#health_issues_modal">
+                                        <i class="fa fa-plus"></i> &nbsp; Add Health Issues
+                                    </button>
+                                </h3>
+                                <br>
+
+                                <div id="healthIssuesWrapper">
+                                    <?php foreach ($health_issues as $issue) { ?>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="health_issues_id[]"
+                                                value="<?php echo $issue['health_issues_id']; ?>">
+                                            <?php echo $issue['health_issues_name']; ?>
+                                        </label>
+                                    <?php } ?>
+                                </div>
                             </div>
+
 
                             <div class="form-group col-md-4">
                                 <label>If Others, specify</label>
@@ -555,15 +496,26 @@
                         <h4>Sports / Interest Details</h4>
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>Sports Interested In</label><br>
-                                <?php foreach ($sports_list as $sports) { ?>
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" name="sports_list_id[]"
-                                            value="<?php echo $sports['sports_list_id']; ?>">
-                                        <?php echo $sports['sports_name']; ?>
-                                    </label>
-                                <?php } ?>
+                                <h3>
+                                    Sports Interested In
+                                    <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal"
+                                        data-target="#add_sports_modal">
+                                        <i class="fa fa-plus"></i> &nbsp; Sports Interested
+                                    </button>
+                                </h3>
+                                <br>
+
+                                <div id="sportsWrapper">
+                                    <?php foreach ($sports_list as $sports) { ?>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="sports_list_id[]"
+                                                value="<?php echo $sports['sports_list_id']; ?>">
+                                            <?php echo $sports['sports_name']; ?>
+                                        </label>
+                                    <?php } ?>
+                                </div>
                             </div>
+
 
                             <div class="form-group col-md-12">
                                 <label>If Others, specify</label>
@@ -582,15 +534,27 @@
                             </div>
 
                             <div class="form-group col-md-12">
-                                <label>Hobbies</label><br>
-                                <?php foreach ($hobbies_list as $hobbies) { ?>
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" name="hobbies_list_id[]"
-                                            value="<?php echo $hobbies['hobbies_list_id']; ?>">
-                                        <?php echo $hobbies['hobbies_name']; ?>
-                                    </label>
-                                <?php } ?>
+                                <h3>
+                                    Hobbies
+                                    <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal"
+                                        data-target="#add_hobbies_modal">
+                                        <i class="fa fa-plus"></i> &nbsp; Add Hobbies
+                                    </button>
+                                </h3>
+                                <br>
+
+                                <div id="hobbiesWrapper">
+                                    <?php foreach ($hobbies_list as $hobby) { ?>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="hobbies_list_id[]"
+                                                value="<?php echo $hobby['hobbies_list_id']; ?>">
+                                            <?php echo $hobby['hobbies_name']; ?>
+                                        </label>
+                                    <?php } ?>
+                                </div>
                             </div>
+
+
 
                             <div class="form-group col-md-12">
                                 <label>If Others, specify</label>
@@ -713,36 +677,58 @@
                         </div>
                     </div>
 
+
                     <!-- TAB 9: TALENT -->
                     <div class="tab-pane" id="tab_9">
 
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="mb-0">
+                        <div class="">
+                            <h3 class="box-title">
                                 Talent Details
-                                <button type="button" class="btn btn-primary btn-sm pull-right" id="talent_add">
-                                    <i class="fa fa-plus"></i> Add
-                                </button>
-                            </h4>
-                            <p>&nbsp;</p>
+                                <div class="  pull-right">
+                                    <button type="button" class="btn btn-primary btn-sm" id="talent_add">
+                                        <i class="fa fa-plus"></i> Add row
+                                    </button>
+
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#add_talent_modal">
+                                        <i class="fa fa-plus"></i> Add Talent
+                                    </button>
+                                </div>
+                            </h3>
+
+
                         </div>
 
                         <div id="talent_append"></div>
 
                     </div>
+
+
                     <!-- TAB 9: TALENT -->
                     <div class="tab-pane" id="tab_10">
                         <div class="row">
-                            <div class="col-md-4" style="margin-bottom: 15px !important">
-                                <label class="d-md-none fw-bold">Select Business</label>
-                                <select name="business_id" class="form-control select2">
-                                    <option value="">Select business</option>
-                                    <?php foreach ($business_opt as $key => $val) {
-                                        if ($key != '') { ?>
-                                            <option value="<?= $key ?>"><?= $val ?></option>
-                                        <?php }
-                                    } ?>
-                                </select>
+                            <div class="form-group col-md-4">
+                                <label>Select Business <span class="text-danger">*</span></label>
+
+                                <div class="input-group">
+                                    <?php
+                                    echo form_dropdown(
+                                        'business_id',
+                                        $business_opt,
+                                        '',
+                                        'class="form-control select2" id="business_id" required'
+                                    );
+                                    ?>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#add_business_modal">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
+
+
                             <div class="col-md-4" style="margin-bottom: 15px !important">
                                 <label class="d-md-none fw-bold">Select Experience</label>
                                 <select name="exper_year" class="form-control select2">
@@ -818,30 +804,324 @@
 
     </section>
 </form>
-<style>
-    /* AdminLTE 2 modal center fix */
-    .modal {
-        text-align: center;
-        padding: 0 !important;
-    }
-
-    .modal:before {
-        content: '';
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-    }
-
-    .modal-dialog {
-        display: inline-block;
-        text-align: left;
-        vertical-align: middle;
-    }
-</style>
-
 
 
 <?php include_once(VIEWPATH . 'inc/footer.php'); ?>
+<div class="modal fade" id="add_business_modal" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+
+            <form method="post" action="" id="frmadd_business_modal" enctype="multipart/form-data">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title">Add Business</h3>
+                    <input type="hidden" name="mode" value="Add Business">
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Business Name <span class="text-danger">*</span></label>
+                        <input type="text" name="business_name" id="business_name" class="form-control"
+                            placeholder="Enter Business Name">
+                        <small class="text-danger d-none" id="business_error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" name="btn_add_business_modal" value="Save" class="btn btn-primary">
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_sports_modal" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+
+            <form method="post" action="" id="frmadd_sports_modal" enctype="multipart/form-data">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title">Add Sports</h3>
+                    <input type="hidden" name="mode" value="Add Sports">
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Sports Name <span class="text-danger">*</span></label>
+                        <input type="text" name="sports_name" id="sports_name" class="form-control"
+                            placeholder="Enter Business Name">
+                        <small class="text-danger d-none" id="sports_error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="button" name="btn_add_sports_modal" value="Save" class="btn btn-primary">
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="add_hobbies_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <form id="frmadd_hobbies_modal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add Hobbies</h3>
+                    <input type="hidden" name="mode" value="Add Hobbies">
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Hobbies Name <span class="text-danger">*</span></label>
+                        <input type="text" name="hobbies_name" id="hobbies_name" class="form-control"
+                            placeholder="Enter Hobbies">
+                        <small class="text-danger d-none" id="hobbies_error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="button" name="btn_add_hobbies_modal" value="Save" class="btn btn-primary">
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="health_issues_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <form id="frmadd_health_issues_modal">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add Health Issue</h3>
+                    <input type="hidden" name="mode" value="Add Health Issues">
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Health Issue <span class="text-danger">*</span></label>
+                        <input type="text" name="health_issues_name" id="health_issues_name" class="form-control"
+                            placeholder="Enter health issue">
+                        <small class="text-danger d-none" id="health_issues_error"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="button" name="btn_add_health_issues_modal" value="Save" class="btn btn-primary">
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="add_talent_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form id="frmadd_add_talent_modal">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add Talent</h3>
+                    <input type="hidden" name="mode" value="Add Talents">
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Talent Name <span class="text-danger">*</span></label>
+                        <input type="text" name="talent_name" id="talent_name" class="form-control"
+                            placeholder="Enter your talent">
+                        <small class="text-danger d-none" id="talent_error"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btn_add_talent_modal">
+                        Save
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_employee_category_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form id="frmadd_add_employee_category_modal">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add Category</h3>
+                    <input type="hidden" name="mode" value="Add Category">
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Category Name <span class="text-danger">*</span></label>
+                        <input type="text" name="category_name" id="category_name" class="form-control"
+                            placeholder="Enter your category">
+                        <small class="text-danger d-none" id="category_error"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btn_add_employee_category_modal">
+                        Save
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="add_employee_skill">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form id="frmadd_add_employee_skill">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add Skill</h3>
+                    <input type="hidden" name="mode" value="Add Skill">
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Category <span class="text-danger">*</span></label>
+                        <?php
+                        echo form_dropdown(
+                            'employee_category_id',
+                            $employee_category_opt,
+                            '',
+                            'class="form-control select2" id="employee_category_id_skill" required'
+                        );
+                        ?>
+                    </div>
+
+                    <!-- Skill Name -->
+                    <div class="form-group">
+                        <label>Skill Name <span class="text-danger">*</span></label>
+                        <input type="text" id="skill_name" class="form-control" placeholder="Enter skill name">
+                        <small class="text-danger d-none" id="skill_error"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label><br>
+                        <label>
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="status" value="InActive"> InActive
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btn_add_employee_skill">
+                        Save
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
 <script>
     $(document).ready(function () {
 
@@ -913,123 +1193,438 @@
         }
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('.select2').select2({ width: '100%' });
-    });
-</script>
-<script>
-    $(document).on('click', '#saveEmployeeCategory', function () {
 
-        var category_name = $('#employee_category_name').val().trim();
-        if (category_name === '') {
-            alert('Category name required');
+<script>
+    $(document).on('click', 'input[name="btn_add_sports_modal"]', function (e) {
+        e.preventDefault();
+
+        var sports_name = $('#sports_name').val().trim();
+
+        if (sports_name === '') {
+            $('#sports_error')
+                .text('Sports name is required')
+                .removeClass('d-none');
+            return;
+        } else {
+            $('#sports_error').addClass('d-none');
+        }
+
+        var formData = $('#frmadd_sports_modal').serialize();
+
+        $.ajax({
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            beforeSend: function () {
+                $('input[name="btn_add_sports_modal"]')
+                    .val('Saving...')
+                    .prop('disabled', true);
+            },
+            success: function (response) {
+
+                if (response.status === 'success') {
+
+                    // Create checkbox dynamically
+                    var checkboxHtml = `
+                    <label class="checkbox-inline">
+                        <input type="checkbox"
+                               name="sports_list_id[]"
+                               value="${response.id}"
+                               checked>
+                        ${response.name}
+                    </label>
+                `;
+
+                    // Append to sports wrapper
+                    $('#sportsWrapper').append(checkboxHtml);
+
+                    // Reset form
+                    $('#frmadd_sports_modal')[0].reset();
+
+                    // Close modal
+                    $('#add_sports_modal').modal('hide');
+
+                    alert(response.message);
+                } else {
+                    alert('Failed to add sport');
+                }
+            },
+            error: function () {
+                alert('AJAX Error');
+            },
+            complete: function () {
+                $('input[name="btn_add_sports_modal"]')
+                    .val('Save')
+                    .prop('disabled', false);
+            }
+        });
+    });
+    $(document).on('click', 'input[name="btn_add_hobbies_modal"]', function (e) {
+        e.preventDefault();
+
+        var hobbies_name = $('#hobbies_name').val().trim();
+
+        if (hobbies_name === '') {
+            $('#hobbies_error')
+                .text('Hobbies name is required')
+                .removeClass('d-none');
+            return;
+        } else {
+            $('#hobbies_error').addClass('d-none');
+        }
+
+        var formData = $('#frmadd_hobbies_modal').serialize();
+
+        $.ajax({
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            beforeSend: function () {
+                $('input[name="btn_add_hobbies_modal"]')
+                    .val('Saving...')
+                    .prop('disabled', true);
+            },
+            success: function (response) {
+
+                if (response.status === 'success') {
+
+                    // Create checkbox dynamically
+                    var checkboxHtml = `
+                    <label class="checkbox-inline">
+                        <input type="checkbox"
+                               name="hobbies_list_id[]"
+                               value="${response.id}"
+                               checked>
+                        ${response.name}
+                    </label>
+                `;
+
+                    // Append to hobbies wrapper
+                    $('#hobbiesWrapper').append(checkboxHtml);
+
+                    // Reset form
+                    $('#frmadd_hobbies_modal')[0].reset();
+
+                    // Close modal
+                    $('#add_hobbies_modal').modal('hide');
+
+                    alert(response.message);
+                } else {
+                    alert('Failed to add hobby');
+                }
+            },
+            error: function () {
+                alert('AJAX Error');
+            },
+            complete: function () {
+                $('input[name="btn_add_hobbies_modal"]')
+                    .val('Save')
+                    .prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', 'input[name="btn_add_business_modal"]', function (e) {
+        e.preventDefault();
+
+        var formData = $('#frmadd_business_modal').serialize();
+
+        $.ajax({
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            beforeSend: function () {
+                $('input[name="btn_add_business_modal"]')
+                    .val('Saving...')
+                    .prop('disabled', true);
+            },
+            success: function (response) {
+
+                if (response.status === 'success') {
+
+                    // Create new option
+                    var newOption = new Option(
+                        response.name,
+                        response.id,
+                        true,
+                        true
+                    );
+
+                    // Append & select
+                    $('#business_id')
+                        .append(newOption)
+                        .trigger('change');
+
+                    // Reset form
+                    $('#frmadd_business_modal')[0].reset();
+
+                    // Close modal
+                    $('#add_business_modal').modal('hide');
+
+                    alert(response.message);
+                } else {
+                    alert('Failed to add business');
+                }
+            },
+            error: function (xhr) {
+                alert('AJAX Error');
+            },
+            complete: function () {
+                $('input[name="btn_add_business_modal"]')
+                    .val('Save')
+                    .prop('disabled', false);
+            }
+        });
+    });
+
+    $(document).on('click', 'input[name="btn_add_health_issues_modal"]', function (e) {
+        e.preventDefault();
+
+        var issue = $('#health_issues_name').val().trim();
+        if (issue === '') {
+            $('#health_issues_error').text('Required').removeClass('d-none');
             return;
         }
 
         $.ajax({
-            url: "<?php echo base_url('master/save_category'); ?>",
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
             type: "POST",
-            data: { category_name: category_name },
+            data: $('#frmadd_health_issues_modal').serialize(),
             dataType: "json",
             success: function (res) {
+                console.log(res);
 
                 if (res.status === 'success') {
+                    $('#healthIssuesWrapper').append(
+                        `<label class="checkbox-inline">
+                        <input type="checkbox" name="health_issues_id[]" value="${res.id}" checked>
+                        ${res.name}
+                    </label>`
+                    );
 
-                    /* =====================================
-                       1️⃣ MAIN CATEGORY DROPDOWN AUTO SELECT
-                    ===================================== */
-                    $('.employee-category-dd').each(function () {
+                    $('#frmadd_health_issues_modal')[0].reset();
+                    $('#health_issues_modal').modal('hide');
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert('AJAX Error – check console');
+            }
+        });
+    });
 
-                        if ($(this).find("option[value='" + res.id + "']").length === 0) {
-                            $(this).append(
-                                $('<option>', {
-                                    value: res.id,
-                                    text: res.category_name
-                                })
-                            );
-                        }
+</script>
+<script>
+    $(document).on('click', '#btn_add_talent_modal', function (e) {
+        e.preventDefault();
 
-                        $(this).val(res.id).trigger('change');
+        var talent_name = $('#talent_name').val().trim();
+        var $btn = $('#btn_add_talent_modal');
+
+        if (talent_name === '') {
+            $('#talent_error').text('Talent name is required').removeClass('d-none');
+            return;
+        } else {
+            $('#talent_error').addClass('d-none');
+        }
+
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        $.ajax({
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+            type: "POST",
+            dataType: "json",
+            data: {
+                mode: 'Add Talents',
+                talent_name: talent_name,
+                [csrfName]: csrfHash
+            },
+
+            beforeSend: function () {
+                $btn.text('Saving...').prop('disabled', true);
+            },
+
+            success: function (response) {
+                if (response.status === 'success') {
+
+                    // 🔥 Append to TALENT dropdowns
+                    $('select[name="talent_id[]"]').each(function () {
+                        $(this).append(
+                            new Option(response.name, response.id, false, false)
+                        );
                     });
 
-                    /* =====================================
-                       2️⃣ SKILL MODAL CATEGORY AUTO SELECT
-                    ===================================== */
-                    if ($('#skill_category_id').find("option[value='" + res.id + "']").length === 0) {
-                        $('#skill_category_id').append(
-                            $('<option>', {
-                                value: res.id,
-                                text: res.category_name
-                            })
+                    // 🔥 Append SAME option to VOLUNTEERED dropdowns
+                    $('select[name="volunteered_interest_id[]"]').each(function () {
+                        $(this).append(
+                            new Option(response.name, response.id, false, false)
                         );
-                    }
+                    });
 
-                    $('#skill_category_id')
-                        .val(res.id)
-                        .trigger('change'); // 🔥 AUTO TRIGGER
+                    // 🔥 Auto-select SAME value in LAST ROW
+                    $('select[name="talent_id[]"]').last()
+                        .val(response.id).trigger('change');
 
-                    /* =====================================
-                       3️⃣ RESET & CLOSE
-                    ===================================== */
-                    $('#employeeCategoryModal').modal('hide');
-                    $('#employee_category_name').val('');
+                    $('select[name="volunteered_interest_id[]"]').last()
+                        .val(response.id).trigger('change');
+
+                    $('#frmadd_add_talent_modal')[0].reset();
+                    $('#add_talent_modal').modal('hide');
+
+                    alert(response.message);
                 }
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert('AJAX Error - see console');
+            },
+
+            complete: function () {
+                $btn.text('Save').prop('disabled', false);
+            }
+        });
+    });
+
+</script>
+<script>
+    $(document).on('click', '#btn_add_employee_category_modal', function (e) {
+        e.preventDefault();
+
+        var category_name = $('#category_name').val().trim();
+        var $btn = $('#btn_add_employee_category_modal');
+
+        if (category_name === '') {
+            $('#category_error').text('Category name is required').removeClass('d-none');
+            return;
+        } else {
+            $('#category_error').addClass('d-none');
+        }
+
+        var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+        var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+        $.ajax({
+            url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+            type: "POST",
+            dataType: "json",
+            data: {
+                mode: 'Add Category',            // ✅ FIXED
+                category_name: category_name,    // ✅ FIXED
+                [csrfName]: csrfHash
+            },
+
+            beforeSend: function () {
+                $btn.text('Saving...').prop('disabled', true);
+            },
+
+            success: function (response) {
+                if (response.status === 'success') {
+
+                    var $categorySelect = $('#employee_category_id');
+
+                    var $modal_categorySelect = $('#frmadd_add_employee_skill #employee_category_id_skill');
+
+                    // 🔥 Append new option
+                    $categorySelect.append(
+                        new Option(response.name, response.id, true, true)
+                    );
+
+                    // 🔥 Refresh Select2
+                    $categorySelect.trigger('change');
+
+                    // 🔥 Append new option
+                    $modal_categorySelect.append(
+                        new Option(response.name, response.id, true, true)
+                    );
+
+                    // 🔥 Refresh Select2
+                    $modal_categorySelect.trigger('change');
+
+                    // Reset + Close modal
+                    $('#frmadd_add_employee_category_modal')[0].reset();
+                    $('#add_employee_category_modal').modal('hide');
+
+                    alert(response.message);
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert('AJAX Error - see console');
+            },
+
+            complete: function () {
+                $btn.text('Save').prop('disabled', false);
             }
         });
     });
 </script>
 
-
 <script>
-    // SAVE SKILL
-    $(document).on('click', '#saveEmployeeSkill', function () {
+$(document).on('click', '#btn_add_employee_skill', function (e) {
+    e.preventDefault();
 
-        var category_id = $('#skill_category_id').val();
-        var skill_name = $('#skill_name').val().trim();
-        var status = $('input[name="skill_status"]:checked').val();
+    var skill_name  = $('#skill_name').val().trim();
+    var category_id = $('#employee_category_id').val();
+    var $btn = $('#btn_add_employee_skill');
 
-        if (category_id === '' || skill_name === '') {
-            alert('All fields required');
-            return;
-        }
+    if (skill_name === '') {
+        $('#skill_error').text('Skill name is required').removeClass('d-none');
+        return;
+    } else {
+        $('#skill_error').addClass('d-none');
+    }
 
-        $.ajax({
-            url: "<?php echo base_url('master/save_skill'); ?>",
-            type: "POST",
-            data: {
-                employee_category_id: category_id,
-                skill_name: skill_name,
-                status: status
-            },
-            dataType: "json",
-            success: function (res) {
+    var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+    var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
 
-                if (res.status === 'success') {
+    $.ajax({
+        url: "<?php echo site_url('employee/ajax_add_master_inline'); ?>",
+        type: "POST",
+        dataType: "json",
+        data: {
+            mode: 'Add Skill',
+            skill_name: skill_name,
+            employee_category_id: category_id,
+            [csrfName]: csrfHash
+        },
 
-                    $('#employee_category_id')
-                        .val(category_id)
-                        .trigger('change');
+        beforeSend: function () {
+            $btn.text('Saving...').prop('disabled', true);
+        },
 
-                    if ($('#employee_skill_id')
-                        .find("option[value='" + res.id + "']").length === 0) {
+        success: function (response) {
+            if (response.status === 'success') {
 
-                        $('#employee_skill_id').append(
-                            $('<option>', {
-                                value: res.id,
-                                text: res.skill_name
-                            })
-                        );
-                    }
+                // 🔥 Append to SKILL dropdown (CHANGE ID AS PER YOUR FORM)
+                var $skillSelect = $('#employee_skill_id');
 
-                    $('#employee_skill_id')
-                        .val(res.id)
-                        .trigger('change');
-
-                    $('#employeeSkillModal').modal('hide');
-                    $('#skill_name').val('');
+                if ($skillSelect.length) {
+                    $skillSelect.append(
+                        new Option(response.name, response.id, true, true)
+                    ).trigger('change');
                 }
+
+                $('#frmadd_add_employee_skill')[0].reset();
+                $('#add_employee_skill').modal('hide');
+
+                alert(response.message);
             }
-        });
+        },
+
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('AJAX Error - see console');
+        },
+
+        complete: function () {
+            $btn.text('Save').prop('disabled', false);
+        }
     });
-</>
+});
+</script>

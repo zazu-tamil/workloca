@@ -1195,6 +1195,144 @@ class Employee extends CI_Controller
     }
 
 
+    public function ajax_add_master_inline()
+    {
+        if ($this->input->post('mode') == 'Add Business') {
+
+            $data = [
+                'business_name' => $this->input->post('business_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('business_info', $data);
+            $insert_id = $this->db->insert_id();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Business added successfully!',
+                'id' => $insert_id,
+                'name' => $data['business_name']
+            ]);
+        }
+
+        if ($this->input->post('mode') == 'Add Sports') {
+
+            $data = [
+                'sports_name' => $this->input->post('sports_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('sports_list_info', $data);
+            $insert_id = $this->db->insert_id();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Sports added successfully!',
+                'id' => $insert_id,
+                'name' => $data['sports_name']
+            ]);
+        }
+        if ($this->input->post('mode') == 'Add Hobbies') {
+
+            $data = [
+                'hobbies_name' => $this->input->post('hobbies_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('hobbies_list_info', $data);
+            $insert_id = $this->db->insert_id();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Hobbies added successfully!',
+                'id' => $insert_id,
+                'name' => $data['hobbies_name']
+            ]);
+        }
+        if ($this->input->post('mode') == 'Add Health Issues') {
+
+            $data = [
+                'health_issues_name' => $this->input->post('health_issues_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('health_issues_info', $data);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Health issue added successfully!',
+                'id' => $this->db->insert_id(),
+                'name' => $data['health_issues_name']
+            ]);
+            exit;
+        }
+        if ($this->input->post('mode') == 'Add Talents') {
+
+            $data = [
+                'talent_name' => $this->input->post('talent_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('talent_info', $data);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Talents added successfully!',
+                'id' => $this->db->insert_id(),
+                'name' => $data['talent_name']
+            ]);
+            exit;
+        }
+        if ($this->input->post('mode') == 'Add Category') {
+
+            $data = [
+                'category_name' => $this->input->post('category_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('employee_category_info', $data);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Category added successfully!',
+                'id' => $this->db->insert_id(),
+                'name' => $data['category_name']
+            ]);
+            exit;
+        }
+        if ($this->input->post('mode') == 'Add Skill') {
+
+            $data = [
+                'employee_category_id' => $this->input->post('employee_category_id'),
+                'skill_name' => $this->input->post('skill_name'),
+                'status' => 'Active',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert('employee_skill_info', $data);
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Skill added successfully!',
+                'id' => $this->db->insert_id(),
+                'name' => $data['skill_name']
+            ]);
+            exit;
+        }
+
+
+
+
+    }
+
+
+
     public function delete_record()
     {
 
@@ -1212,6 +1350,8 @@ class Employee extends CI_Controller
             $this->db->update('employee_info', array('status' => 'Delete'));
             echo "Record Deleted Successfully";
         }
-      
+
     }
+
+
 }

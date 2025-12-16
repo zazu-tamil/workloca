@@ -261,14 +261,10 @@
                             <div class="form-group col-md-4">
                                 <label>Total Years of Experience</label>
                                 <input type="number" name="total_exp" class="form-control"
-                                    placeholder="Enter years of experience">
+                                    placeholder="Enter years of experience" value="<?php echo $record_list['total_exp']; ?>">
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label>Previous Company / Contractor</label>
-                                <input type="text" name="prev_company" class="form-control"
-                                    placeholder="Enter previous company">
-                            </div>
+                          
 
                             <div class="form-group col-md-4">
                                 <label>Salary</label>

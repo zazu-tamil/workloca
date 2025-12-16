@@ -680,6 +680,7 @@
           dataType: "json",
           data: {
             tbl: "ge_district_based_area_list",
+            
             id: district,
           },
           success: function (res) {
